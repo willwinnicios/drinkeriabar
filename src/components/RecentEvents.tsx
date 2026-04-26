@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { Instagram, Play } from 'lucide-react';
 import event1 from '../assets/events/1.jpg';
 import event2 from '../assets/events/2.mp4';
@@ -9,6 +9,26 @@ import event5 from '../assets/events/5.mp4';
 import event6 from '../assets/events/6.jpg';
 import event7 from '../assets/events/7.jpg';
 import event8 from '../assets/events/8.mp4';
+
+function LazyVideo({ src, className }: { src: string; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "200px" });
+  
+  return (
+    <div ref={ref} className="w-full h-full relative">
+      {isInView && (
+        <video 
+          src={src} 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+          className={className}
+        />
+      )}
+    </div>
+  );
+}
 
 export function RecentEvents() {
   const events = [
@@ -69,13 +89,8 @@ export function RecentEvents() {
             >
               <div className="w-full h-auto bg-black">
                 {event.type === 'video' ? (
-                  <video 
+                  <LazyVideo 
                     src={event.media} 
-                    autoPlay 
-                    muted 
-                    loop 
-                    playsInline
-                    preload="metadata"
                     className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
                   />
                 ) : (

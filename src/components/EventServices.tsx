@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion, Variants } from 'framer-motion';
+import { motion, Variants, useInView } from 'framer-motion';
 import casamentoImg from '../assets/casamento-drink.webp';
 import formaturaVid from '../assets/formatura-drink.mp4';
 import aniversarioVid from '../assets/aniversario-drink.mp4';
@@ -16,6 +16,26 @@ const fadeUpVariant: Variants = {
     }
   }
 };
+
+function LazyVideo({ src, className }: { src: string; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "200px" });
+  
+  return (
+    <div ref={ref} className="w-full h-full relative">
+      {isInView && (
+        <video 
+          src={src} 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+          className={className}
+        />
+      )}
+    </div>
+  );
+}
 
 const services = [
   {
@@ -45,8 +65,6 @@ const services = [
 ];
 
 function ServiceCard({ service, idx }: { service: typeof services[0]; idx: number }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -54,26 +72,13 @@ function ServiceCard({ service, idx }: { service: typeof services[0]; idx: numbe
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.8, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
       className="group relative"
-      onMouseEnter={() => service.video && videoRef.current?.play()}
-      onMouseLeave={() => {
-        if (service.video && videoRef.current) {
-          videoRef.current.pause();
-          videoRef.current.currentTime = 0;
-        }
-      }}
     >
       <div className="relative mb-8 aspect-[4/5] overflow-hidden rounded-sm border border-[#1F2133]/5 shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:border-[#D4AF37]/20 group-hover:-translate-y-2">
         <div className="absolute inset-0 bg-[#1F2133]/5 group-hover:bg-transparent transition-colors duration-700 z-20" />
 
         {service.video ? (
-          <video
-            ref={videoRef}
+          <LazyVideo
             src={service.video}
-            loop
-            muted
-            playsInline
-            autoPlay
-            preload="none"
             className="absolute inset-0 w-full h-full object-cover z-10"
           />
         ) : (
