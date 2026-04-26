@@ -72,6 +72,8 @@ function ServiceCard({ service, idx }: { service: typeof services[0]; idx: numbe
             loop
             muted
             playsInline
+            autoPlay
+            preload="none"
             className="absolute inset-0 w-full h-full object-cover z-10"
           />
         ) : (
@@ -106,7 +108,7 @@ function ServiceCard({ service, idx }: { service: typeof services[0]; idx: numbe
 export function EventServices() {
   return (
     <section id="servicos" data-theme="light" className="pb-24 md:pb-40 bg-[#F6F4EA] text-[#1F2133]">
-      <div className="container max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-8">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"

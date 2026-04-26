@@ -71,7 +71,7 @@ export function Differentials() {
         ))}
       </div>
 
-      <div className="container max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-8 relative z-10">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-8 relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -94,7 +94,7 @@ export function Differentials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.7, delay: idx * 0.15, ease: "easeOut" }}
-              className="group relative p-10 md:p-14 bg-white/50 backdrop-blur-sm rounded-sm border border-[#1F2133]/5 hover:border-[#D4AF37]/30 hover:shadow-2xl transition-all duration-700 overflow-hidden cursor-default shadow-sm"
+              className="group relative p-6 sm:p-10 md:p-14 bg-white/50 backdrop-blur-sm rounded-sm border border-[#1F2133]/5 hover:border-[#D4AF37]/30 hover:shadow-2xl transition-all duration-700 overflow-hidden cursor-default shadow-sm"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0" />
 

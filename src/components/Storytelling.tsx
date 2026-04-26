@@ -34,7 +34,7 @@ export function Storytelling() {
         transition={{ delay: 1.5, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[calc(100%-1px)] z-20 origin-bottom"
       >
-        <svg width="280" height="45" viewBox="0 0 280 45" fill="none" className="block">
+        <svg width="280" height="45" viewBox="0 0 280 45" fill="none" className="block max-w-full h-auto">
           <path d="M0 45 C100 45 110 0 140 0 C170 0 180 45 280 45 Z" fill="#F6F4EA" />
         </svg>
         <a
@@ -51,7 +51,7 @@ export function Storytelling() {
         </a>
       </motion.div>
 
-      <div className="container max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-8">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
             initial="hidden"

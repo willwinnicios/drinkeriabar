@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Minus } from 'lucide-react';
 import { cn } from '../lib/utils';
 import logoDrinkeria from '../assets/logo-drinkeria.webp';
 import negroniImg from '../assets/drinks/negroni.webp';
@@ -295,6 +296,7 @@ const drinks = [
 
 function DrinkCard({ drink, index }: { drink: typeof drinks[0]; index: number }) {
   const isLarge = index === 0 || (index - 6) % 7 === 0;
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <motion.div
@@ -312,28 +314,49 @@ function DrinkCard({ drink, index }: { drink: typeof drinks[0]; index: number })
         src={drink.image}
         alt={drink.name}
         loading="lazy"
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-60 group-hover:opacity-30"
+        className={cn(
+          "absolute inset-0 w-full h-full object-cover transition-transform duration-1000 opacity-60",
+          "md:group-hover:scale-105 md:group-hover:opacity-30",
+          isOpen ? "scale-105 opacity-30" : ""
+        )}
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-[#1F2133] via-[#1F2133]/20 to-transparent opacity-80" />
+      <div className={cn(
+        "absolute inset-0 bg-gradient-to-t from-[#1F2133] via-[#1F2133]/20 to-transparent transition-opacity duration-700",
+        isOpen ? "opacity-90" : "opacity-80"
+      )} />
 
-      <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-end">
-        <div className="transform transition-transform duration-500 group-hover:-translate-y-4">
+      <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-end pointer-events-none">
+        <div className={cn(
+          "transform transition-transform duration-500",
+          "md:group-hover:-translate-y-4",
+          isOpen ? "-translate-y-4" : ""
+        )}>
           <span className="font-sans text-[8px] md:text-[10px] uppercase tracking-[0.4em] text-[#D4AF37] mb-3 block font-bold opacity-80">
             {drink.category}
           </span>
           <h3 className={cn(
-            "font-serif text-[#F6F4EA] italic mb-4 transition-colors group-hover:text-[#F9E076]",
-            isLarge ? "text-3xl md:text-5xl" : "text-2xl md:text-3xl"
+            "font-serif text-[#F6F4EA] italic mb-4 transition-colors",
+            "md:group-hover:text-[#F9E076]",
+            isLarge ? "text-3xl md:text-5xl" : "text-2xl md:text-3xl",
+            isOpen ? "text-[#F9E076]" : ""
           )}>
             {drink.name}
           </h3>
 
-          <div className="h-[1px] w-12 bg-[#D4AF37]/50 group-hover:w-full transition-all duration-700" />
+          <div className={cn(
+            "h-[1px] bg-[#D4AF37]/50 transition-all duration-700",
+            "w-12 md:group-hover:w-full",
+            isOpen ? "w-full" : ""
+          )} />
         </div>
 
-        <div className="max-h-0 opacity-0 group-hover:max-h-40 group-hover:opacity-100 transition-all duration-700 overflow-hidden mt-4">
-          <div className="space-y-3 font-sans text-[11px] md:text-[13px] text-[#F6F4EA]/70 leading-relaxed max-w-lg">
+        <div className={cn(
+          "transition-all duration-700 overflow-hidden mt-4",
+          "md:group-hover:max-h-40 md:group-hover:opacity-100",
+          isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+        )}>
+          <div className="space-y-3 font-sans text-[11px] md:text-[13px] text-[#F6F4EA]/70 leading-relaxed max-w-lg pointer-events-auto">
             <p><strong className="text-[#F6F4EA] font-semibold uppercase tracking-tighter mr-2">Base:</strong> {drink.base}</p>
             <p><strong className="text-[#F6F4EA] font-semibold uppercase tracking-tighter mr-2">Perfil:</strong> {drink.profile}</p>
             <p className="italic font-light border-l border-[#D4AF37]/30 pl-4 py-1">"{drink.experience}"</p>
@@ -342,9 +365,25 @@ function DrinkCard({ drink, index }: { drink: typeof drinks[0]; index: number })
       </div>
 
       <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-[1px] h-10 bg-gradient-to-b from-[#D4AF37] to-transparent translate-x-10 group-hover:translate-x-0 transition-transform duration-700" />
-        <div className="absolute top-0 right-0 h-[1px] w-10 bg-gradient-to-l from-[#D4AF37] to-transparent -translate-y-10 group-hover:translate-y-0 transition-transform duration-700" />
+        <div className={cn(
+          "absolute top-0 right-0 w-[1px] h-10 bg-gradient-to-b from-[#D4AF37] to-transparent transition-transform duration-700",
+          "translate-x-10 md:group-hover:translate-x-0",
+          isOpen ? "translate-x-0" : ""
+        )} />
+        <div className={cn(
+          "absolute top-0 right-0 h-[1px] w-10 bg-gradient-to-l from-[#D4AF37] to-transparent transition-transform duration-700",
+          "-translate-y-10 md:group-hover:translate-y-0",
+          isOpen ? "translate-y-0" : ""
+        )} />
       </div>
+
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="md:hidden absolute bottom-6 right-6 w-8 h-8 rounded-full border border-[#D4AF37]/30 flex items-center justify-center bg-[#1F2133]/50 backdrop-blur-sm text-[#D4AF37] transition-all z-10"
+        aria-label="Ver mais informações"
+      >
+        {isOpen ? <Minus size={14} /> : <Plus size={14} />}
+      </button>
     </motion.div>
   );
 }
@@ -365,7 +404,7 @@ export function DrinksMenu() {
 
   return (
     <section id="drinks" data-theme="dark" className="py-24 md:py-40 bg-[#1F2133] overflow-hidden relative">
-      <div className="container max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-8">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-8">
         <div className="flex flex-col items-center mb-24 md:mb-36">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -386,7 +425,7 @@ export function DrinksMenu() {
             </div>
             <h2 className="font-serif italic text-5xl md:text-8xl mb-12 text-[#F6F4EA]">A Carta de Drinks</h2>
 
-            <nav className="flex justify-center items-center gap-6 md:gap-12">
+            <nav className="flex justify-start md:justify-center items-center gap-6 md:gap-12 overflow-x-auto pb-4 md:pb-0 scrollbar-hide px-4 md:px-0">
               {Object.keys(categoryGroups).map((group) => (
                 <button
                   key={group}

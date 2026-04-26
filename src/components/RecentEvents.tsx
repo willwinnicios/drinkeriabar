@@ -25,7 +25,7 @@ export function RecentEvents() {
   return (
     <section id="eventos" data-theme="light" className="py-24 bg-[#F6F4EA] overflow-hidden">
       {/* Text Container - Standard Alignment */}
-      <div className="container max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-8 mb-16">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-8 mb-16">
         <div className="flex flex-col lg:flex-row justify-between items-end gap-8">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
@@ -54,7 +54,7 @@ export function RecentEvents() {
       {/* Media Mural - Wide Layout */}
       <div className="w-full max-w-[1800px] mx-auto px-4 md:px-8">
         {/* Proportional Masonry Mural - Perfectly Aligned Columns */}
-        <div className="columns-2 md:columns-4 gap-2 md:gap-3 space-y-2 md:gap-y-3 w-full mx-auto px-2">
+        <div className="columns-1 sm:columns-2 md:columns-4 gap-4 sm:gap-2 md:gap-3 space-y-4 sm:space-y-2 w-full mx-auto px-2">
           {events.map((event, idx) => (
             <motion.a
               key={idx}
@@ -82,9 +82,9 @@ export function RecentEvents() {
                   <img 
                     src={event.media} 
                     alt="Evento Drinkeria" 
+                    loading="lazy"
                     decoding="async"
                     className="w-full h-auto block transition-transform duration-700 group-hover:scale-105" 
-                    loading="lazy" 
                   />
                 )}
               </div>

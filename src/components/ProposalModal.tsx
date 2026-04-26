@@ -53,17 +53,17 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
     leadService.saveLead(formData);
 
     // Prepare WhatsApp Message - Premium Formatting
-    const message = `🍸 *NOVA SOLICITAÇÃO DE PROPOSTA* 🍸\n` +
+    const message = `\uD83C\uDF78 *NOVA SOLICITAÇÃO DE PROPOSTA* \uD83C\uDF78\n` +
       `---------------------------------------\n` +
-      `👤 *CLIENTE:* ${formData.name.toUpperCase()}\n` +
-      `📧 *E-MAIL:* ${formData.email}\n` +
-      `📱 *WHATSAPP:* ${formData.phone}\n\n` +
-      `🗓️ *DETALHES DO EVENTO*\n` +
+      `\uD83D\uDC64 *CLIENTE:* ${formData.name.toUpperCase()}\n` +
+      `\uD83D\uDCE7 *E-MAIL:* ${formData.email}\n` +
+      `\uD83D\uDCF1 *WHATSAPP:* ${formData.phone}\n\n` +
+      `\uD83D\uDDD3\uFE0F *DETALHES DO EVENTO*\n` +
       `---------------------------------------\n` +
-      `✨ *TIPO:* ${formData.eventType}\n` +
-      `📅 *DATA:* ${formData.eventDate}\n` +
-      `👥 *CONVIDADOS:* ${formData.guests} pessoas\n\n` +
-      `📝 *OBSERVAÇÕES:*\n` +
+      `\u2728 *TIPO:* ${formData.eventType}\n` +
+      `\uD83D\uDCC5 *DATA:* ${formData.eventDate}\n` +
+      `\uD83D\uDC65 *CONVIDADOS:* ${formData.guests} pessoas\n\n` +
+      `\uD83D\uDCDD *OBSERVAÇÕES:*\n` +
       `_${formData.observations || 'Nenhuma informada.'}_\n` +
       `---------------------------------------\n` +
       `_Solicitado via site Drinkeria Bar_`;
@@ -86,7 +86,7 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[110] flex items-start md:items-center justify-center p-4 overflow-y-auto">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -99,7 +99,7 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-xl bg-[#F6F4EA] rounded-sm shadow-2xl overflow-hidden"
+            className="relative w-full max-w-xl bg-[#F6F4EA] rounded-sm shadow-2xl overflow-hidden my-auto"
           >
             {/* Header */}
             <div className="bg-[#1F2133] p-6 text-center relative">
@@ -190,8 +190,8 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
                     animate={{ opacity: 1, x: 0 }}
                     className="space-y-6"
                   >
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="col-span-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="md:col-span-2">
                         <label className="text-[10px] uppercase tracking-widest text-[#1F2133]/40 font-bold mb-2 block">Tipo de Evento</label>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                           {eventTypes.map(type => (
@@ -212,7 +212,7 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
                         </div>
                       </div>
 
-                      <div className="relative mt-4">
+                      <div className="relative mt-2 md:mt-4">
                         <label className="text-[10px] uppercase tracking-widest text-[#1F2133]/40 font-bold mb-2 block">Data Prevista</label>
                         <div className="relative">
                           <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D4AF37]" size={16} />
@@ -226,7 +226,7 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
                         </div>
                       </div>
 
-                      <div className="relative mt-4">
+                      <div className="relative mt-2 md:mt-4">
                         <label className="text-[10px] uppercase tracking-widest text-[#1F2133]/40 font-bold mb-2 block">Nº de Convidados</label>
                         <div className="relative">
                           <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D4AF37]" size={16} />
@@ -240,7 +240,7 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
                         </div>
                       </div>
 
-                      <div className="col-span-2 mt-4">
+                      <div className="md:col-span-2 mt-2 md:mt-4">
                         <label className="text-[10px] uppercase tracking-widest text-[#1F2133]/40 font-bold mb-2 block">Observações (Opcional)</label>
                         <div className="relative">
                           <MessageSquare className="absolute left-4 top-4 text-[#D4AF37]" size={16} />

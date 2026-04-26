@@ -24,7 +24,7 @@ export function Footer({ onOpenProposal }: { onOpenProposal: () => void }) {
     <footer className="relative bg-[#1F2133] pt-32 pb-12 overflow-hidden border-t border-[#D4AF37]/20">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#D4AF37]/10 via-[#1F2133]/0 to-transparent" />
 
-      <div className="container max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-8 text-center relative z-10">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-8 text-center relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"

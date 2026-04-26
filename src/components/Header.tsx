@@ -59,7 +59,7 @@ export function Header({ onOpenProposal }: { onOpenProposal: () => void }) {
             : "bg-[#1F2133]/90 backdrop-blur-md"
       )}
     >
-      <div className="container max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-8 h-full flex items-center justify-between gap-4">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-8 h-full flex items-center justify-between gap-4">
         <a href="#inicio" className="flex items-center flex-shrink-0">
           <img
             src={logoDrinkeria}
@@ -138,13 +138,13 @@ export function Header({ onOpenProposal }: { onOpenProposal: () => void }) {
               </button>
             </div>
 
-            <nav className="flex flex-col gap-8">
+            <nav className="flex flex-col gap-6 md:gap-8 overflow-y-auto pb-8">
               {navLinks.map((link) => (
                 <a
                   key={link.id}
                   href={`#${link.id}`}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="font-serif text-4xl text-[#F6F4EA] italic"
+                  className="font-serif text-3xl md:text-4xl text-[#F6F4EA] italic"
                 >
                   {link.name}
                 </a>

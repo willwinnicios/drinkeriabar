@@ -38,7 +38,7 @@ export function WhatsAppWidget() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="w-[350px] bg-[#E5DDD5] rounded-lg shadow-2xl overflow-hidden border border-black/10"
+            className="w-[calc(100vw-2rem)] sm:w-[350px] bg-[#E5DDD5] rounded-lg shadow-2xl overflow-hidden border border-black/10"
           >
             {/* WhatsApp Header */}
             <div className="bg-[#075E54] p-4 flex items-center gap-3">

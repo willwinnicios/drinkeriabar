@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 import heroVideo from '../assets/hero-video.mp4';
+import heroPoster from '../assets/casamento-drink.webp';
 
 const WHATSAPP_NUMBER = "5546999158888";
 const WHATSAPP_MESSAGE = "Olá Kenia, me encantei com a Drinkeria. Gostaria de solicitar uma proposta exclusiva para meu evento.";
@@ -51,7 +52,7 @@ function TypingEffect({ words }: { words: string[] }) {
   const displayText = isSelected ? currentWord : currentWord.substring(0, subIndex);
 
   return (
-    <span className="inline-block text-left min-w-[160px] sm:min-w-[200px] md:min-w-[260px] align-bottom">
+    <span className="inline-block text-left min-w-[120px] sm:min-w-[200px] md:min-w-[260px] align-bottom">
       {isSelected ? (
         <span className="bg-[#D4AF37] text-[#1F2133] px-1">{displayText || '\u200B'}</span>
       ) : (
@@ -78,7 +79,9 @@ export function Hero({ onOpenProposal }: { onOpenProposal: () => void }) {
           loop
           muted
           playsInline
-          className="w-full h-full object-cover scale-105 transform translate-z-0 opacity-50"
+          preload="auto"
+          poster={heroPoster}
+          className="w-full h-full object-cover scale-105 transform translate-z-0 opacity-50 transition-opacity duration-1000"
         >
           <source src={heroVideo} type="video/mp4" />
           Seu navegador não suporta a reprodução de vídeo.
@@ -86,7 +89,7 @@ export function Hero({ onOpenProposal }: { onOpenProposal: () => void }) {
         <div className="absolute inset-0 bg-gradient-to-b from-[#1F2133]/90 via-[#1F2133]/20 to-[#1F2133] z-10" />
       </div>
 
-      <div className="relative z-10 text-center px-6 sm:px-12 md:px-20 lg:px-8 max-w-4xl mx-auto mt-20">
+      <div className="relative z-10 text-center px-4 sm:px-8 md:px-12 lg:px-8 max-w-4xl mx-auto mt-20">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
