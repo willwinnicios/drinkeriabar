@@ -25,7 +25,7 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const searchTimeoutRef = useRef<NodeJS.Timeout>();
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleLocationSearch = (query: string) => {
     setFormData({ ...formData, eventLocation: query });
