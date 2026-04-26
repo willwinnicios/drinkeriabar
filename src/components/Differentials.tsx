@@ -77,7 +77,7 @@ export function Differentials() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUpVariant}
-          className="text-center mb-20 md:mb-28"
+          className="text-center mb-20 md:mb-28 px-2 md:px-0"
         >
           <span className="text-[#D4AF37] font-sans tracking-[0.2em] uppercase text-xs mb-4 block font-bold opacity-80">
             Padrão de Excelência

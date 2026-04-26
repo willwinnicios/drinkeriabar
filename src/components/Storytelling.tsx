@@ -76,7 +76,7 @@ export function Storytelling() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="max-w-xl mx-auto lg:mx-0"
+            className="max-w-xl mx-auto lg:mx-0 px-2 md:px-0"
           >
             <motion.span variants={fadeUpVariant} className="text-[#D4AF37] font-sans tracking-[0.2em] uppercase text-xs mb-4 block font-semibold">
               10 Anos de Excelência

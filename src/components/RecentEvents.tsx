@@ -51,7 +51,7 @@ export function RecentEvents() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="max-w-2xl"
+            className="max-w-2xl px-2 md:px-0"
           >
             <span className="text-[#D4AF37] font-sans tracking-[0.3em] uppercase text-[10px] md:text-xs mb-4 block font-bold">Experiências Reais</span>
             <h2 className="font-serif italic text-4xl md:text-6xl text-[#1F2133] leading-tight">
@@ -63,7 +63,7 @@ export function RecentEvents() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="flex flex-col items-center lg:items-end"
+            className="flex flex-col items-center lg:items-end px-2 md:px-0"
           >
             <span className="text-6xl md:text-8xl font-serif text-[#1F2133] opacity-10">+200</span>
             <span className="text-[#D4AF37] font-sans tracking-widest uppercase text-[10px] md:text-xs font-bold -mt-4 md:-mt-6">Eventos Realizados</span>

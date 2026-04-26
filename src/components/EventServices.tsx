@@ -119,7 +119,7 @@ export function EventServices() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUpVariant}
-          className="text-center mb-16 md:mb-24"
+          className="text-center mb-16 md:mb-24 px-2 md:px-0"
         >
           <span className="text-[#D4AF37] font-sans tracking-[0.2em] uppercase text-xs mb-4 block font-semibold">
             Nossos Serviços

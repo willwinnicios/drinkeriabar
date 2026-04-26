@@ -413,7 +413,7 @@ export function DrinksMenu() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <div className="flex items-center justify-center gap-4 mb-8 opacity-70">
+            <div className="flex items-center justify-center gap-4 mb-8 opacity-70 px-2 md:px-0">
               <img
                 src={logoDrinkeria}
                 alt="Logo"
@@ -424,7 +424,7 @@ export function DrinksMenu() {
                 Eventos
               </span>
             </div>
-            <h2 className="font-serif italic text-5xl md:text-8xl mb-12 text-[#F6F4EA]">A Carta de Drinks</h2>
+            <h2 className="font-serif italic text-5xl md:text-8xl mb-12 text-[#F6F4EA] px-2 md:px-0">A Carta de Drinks</h2>
 
             <nav className="flex justify-start md:justify-center items-center gap-6 md:gap-12 overflow-x-auto pb-4 md:pb-0 scrollbar-hide px-4 md:px-0">
               {Object.keys(categoryGroups).map((group) => (
@@ -463,7 +463,7 @@ export function DrinksMenu() {
           </AnimatePresence>
         </motion.div>
 
-        <div className="mt-32 flex flex-col items-center">
+        <div className="mt-32 flex flex-col items-center px-2 md:px-0">
           <div className="w-px h-20 bg-gradient-to-b from-[#D4AF37] to-transparent mb-12" />
           <p className="font-serif italic text-[#F6F4EA]/40 text-xl md:text-3xl max-w-3xl mx-auto text-center leading-relaxed">
             "Equilíbrio, técnica e alma. Redefinimos o conceito de brinde para tornar cada gole uma memória eterna."
