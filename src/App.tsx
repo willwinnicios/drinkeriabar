@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Storytelling } from './components/Storytelling';
@@ -11,27 +12,8 @@ import { WhatsAppWidget } from './components/WhatsAppWidget';
 import { ProposalModal } from './components/ProposalModal';
 import { AdminDashboard } from './components/AdminDashboard';
 
-export default function App() {
+function SiteLayout() {
   const [isProposalOpen, setIsProposalOpen] = useState(false);
-  const [view, setView] = useState<'site' | 'admin'>('site');
-
-  useEffect(() => {
-    const handleHash = () => {
-      if (window.location.hash === '#admin') {
-        setView('admin');
-      } else {
-        setView('site');
-      }
-    };
-
-    window.addEventListener('hashchange', handleHash);
-    handleHash(); // Check on mount
-    return () => window.removeEventListener('hashchange', handleHash);
-  }, []);
-
-  if (view === 'admin') {
-    return <AdminDashboard onBack={() => { window.location.hash = ''; setView('site'); }} />;
-  }
 
   return (
     <div className="bg-[#1F2133] min-h-screen text-[#F6F4EA]">
@@ -52,5 +34,16 @@ export default function App() {
         onClose={() => setIsProposalOpen(false)} 
       />
     </div>
+  );
+}
+
+export default function App() {
+  const navigate = useNavigate();
+
+  return (
+    <Routes>
+      <Route path="/" element={<SiteLayout />} />
+      <Route path="/admin" element={<AdminDashboard onBack={() => navigate('/')} />} />
+    </Routes>
   );
 }
