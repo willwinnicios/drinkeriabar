@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Minus } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import { Plus, Minus, ChevronDown } from 'lucide-react';
 import { cn } from '../lib/utils';
 import logoDrinkeria from '../assets/logo-drinkeria.webp';
 import negroniImg from '../assets/drinks/negroni.webp';
@@ -406,6 +406,22 @@ function DrinkCard({ drink, index }: { drink: typeof drinks[0]; index: number })
 
 export function DrinksMenu() {
   const [filter, setFilter] = useState('Todos');
+  const sectionRef = useRef<HTMLElement>(null);
+  const [showFloatingBtn, setShowFloatingBtn] = useState(false);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start center", "end end"]
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    // Show button when scrolled at least 20% into the section and hide near the end
+    if (latest > 0.2 && latest < 0.9) {
+      setShowFloatingBtn(true);
+    } else {
+      setShowFloatingBtn(false);
+    }
+  });
 
   const categoryGroups = {
     'Todos': 'Todos',
@@ -419,7 +435,7 @@ export function DrinksMenu() {
     : drinks.filter(d => categoryGroups[filter as keyof typeof categoryGroups].includes(d.category));
 
   return (
-    <section id="drinks" data-theme="dark" className="py-24 md:py-40 bg-[#1F2133] overflow-hidden relative">
+    <section ref={sectionRef} id="drinks" data-theme="dark" className="py-24 md:py-40 bg-[#1F2133] overflow-hidden relative">
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-8">
         <div className="flex flex-col items-center mb-24 md:mb-36">
           <motion.div
@@ -483,8 +499,44 @@ export function DrinksMenu() {
           <p className="font-serif italic text-[#F6F4EA]/40 text-xl md:text-3xl max-w-3xl mx-auto text-center leading-relaxed">
             "Equilíbrio, técnica e alma. Redefinimos o conceito de brinde para tornar cada gole uma memória eterna."
           </p>
+          
+          <motion.a
+            href="#diferenciais"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-16 flex flex-col items-center gap-3 group cursor-pointer"
+          >
+            <span className="font-sans text-[10px] uppercase tracking-[0.4em] text-[#D4AF37] opacity-60 group-hover:opacity-100 transition-opacity">
+              Descobrir Diferenciais
+            </span>
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="text-[#D4AF37]"
+            >
+              <ChevronDown size={24} strokeWidth={1} />
+            </motion.div>
+          </motion.a>
         </div>
       </div>
+
+      {/* Floating Skip Button for Mobile */}
+      <AnimatePresence>
+        {showFloatingBtn && (
+          <motion.a
+            href="#diferenciais"
+            initial={{ opacity: 0, y: 20, x: "-50%" }}
+            animate={{ opacity: 1, y: 0, x: "-50%" }}
+            exit={{ opacity: 0, y: 20, x: "-50%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            className="fixed bottom-10 left-1/2 z-40 lg:hidden bg-[#D4AF37] text-[#1F2133] px-6 py-3 rounded-full flex items-center gap-3 shadow-[0_15px_30px_rgba(212,175,55,0.4)] transition-transform active:scale-95"
+          >
+            <span className="font-sans text-[10px] uppercase tracking-[0.2em] font-bold">Próxima Sessão</span>
+            <ChevronDown size={18} strokeWidth={2.5} />
+          </motion.a>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
