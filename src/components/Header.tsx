@@ -48,78 +48,91 @@ export function Header({ onOpenProposal }: { onOpenProposal: () => void }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-500 h-20 flex items-center",
-        !isScrolled
-          ? "bg-transparent"
-          : theme === 'light'
-            ? "bg-[#F6F4EA]/90 backdrop-blur-md shadow-sm"
-            : "bg-[#1F2133]/90 backdrop-blur-md"
-      )}
-    >
-      <div className="container max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-8 h-full flex items-center justify-between gap-4">
-        <a href="#inicio" className="flex items-center flex-shrink-0">
-          <img
-            src={logoDrinkeria}
-            alt="Drinkeria Bar"
-            className={cn(
-              "transition-all duration-500 w-auto",
-              isScrolled ? "h-8 md:h-9" : "h-10 md:h-11",
-              theme === 'light' ? "brightness-0" : "brightness-0 invert"
-            )}
-          />
-        </a>
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 flex-1 justify-end">
-          {navLinks.map((link) => (
-            <a
-              key={link.id}
-              href={`#${link.id}`}
+  return (
+    <>
+      <header
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-500 h-20 flex items-center",
+          !isScrolled
+            ? "bg-transparent"
+            : theme === 'light'
+              ? "bg-[#F6F4EA]/90 backdrop-blur-md shadow-sm"
+              : "bg-[#1F2133]/90 backdrop-blur-md"
+        )}
+      >
+        <div className="container max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-8 h-full flex items-center justify-between gap-4">
+          <a href="#inicio" className="flex items-center flex-shrink-0">
+            <img
+              src={logoDrinkeria}
+              alt="Drinkeria Bar"
               className={cn(
-                "font-sans text-[10px] xl:text-[11px] uppercase tracking-[0.2em] transition-all duration-300 relative py-2 whitespace-nowrap",
-                theme === 'light' ? "text-[#1F2133]" : "text-[#F6F4EA]",
-                activeSection === link.id ? "opacity-100 font-bold" : "opacity-60 hover:opacity-100"
+                "transition-all duration-500 w-auto",
+                isScrolled ? "h-8 md:h-9" : "h-10 md:h-11",
+                theme === 'light' ? "brightness-0" : "brightness-0 invert"
+              )}
+            />
+          </a>
+
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 flex-1 justify-end">
+            {navLinks.map((link) => (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                className={cn(
+                  "font-sans text-[10px] xl:text-[11px] uppercase tracking-[0.2em] transition-all duration-300 relative py-2 whitespace-nowrap",
+                  theme === 'light' ? "text-[#1F2133]" : "text-[#F6F4EA]",
+                  activeSection === link.id ? "opacity-100 font-bold" : "opacity-60 hover:opacity-100"
+                )}
+              >
+                {link.name}
+                {activeSection === link.id && (
+                  <motion.div
+                    layoutId="activeNav"
+                    className={cn(
+                      "absolute bottom-0 left-0 right-0 h-[1px]",
+                      theme === 'light' ? "bg-[#1F2133]" : "bg-[#D4AF37]"
+                    )}
+                  />
+                )}
+              </a>
+            ))}
+            <button
+              onClick={onOpenProposal}
+              className={cn(
+                "px-5 xl:px-6 py-2 rounded-sm font-sans text-[10px] uppercase tracking-[0.2em] transition-all duration-500 font-bold whitespace-nowrap cursor-pointer",
+                theme === 'light'
+                  ? "bg-[#1F2133] text-white hover:bg-[#D4AF37]"
+                  : "bg-[#D4AF37] text-[#1F2133] hover:bg-[#F6F4EA]"
               )}
             >
-              {link.name}
-              {activeSection === link.id && (
-                <motion.div
-                  layoutId="activeNav"
-                  className={cn(
-                    "absolute bottom-0 left-0 right-0 h-[1px]",
-                    theme === 'light' ? "bg-[#1F2133]" : "bg-[#D4AF37]"
-                  )}
-                />
-              )}
-            </a>
-          ))}
+              Solicitar Proposta
+            </button>
+          </nav>
+
+          {/* Mobile Menu Toggle */}
           <button
-            onClick={onOpenProposal}
+            onClick={() => setIsMobileMenuOpen(true)}
             className={cn(
-              "px-5 xl:px-6 py-2 rounded-sm font-sans text-[10px] uppercase tracking-[0.2em] transition-all duration-500 font-bold whitespace-nowrap cursor-pointer",
-              theme === 'light'
-                ? "bg-[#1F2133] text-white hover:bg-[#D4AF37]"
-                : "bg-[#D4AF37] text-[#1F2133] hover:bg-[#F6F4EA]"
+              "lg:hidden p-2 transition-colors duration-500",
+              theme === 'light' ? "text-[#1F2133]" : "text-[#F6F4EA]"
             )}
           >
-            Solicitar Proposta
+            <Menu size={24} />
           </button>
-        </nav>
-
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={() => setIsMobileMenuOpen(true)}
-          className={cn(
-            "lg:hidden p-2 transition-colors duration-500",
-            theme === 'light' ? "text-[#1F2133]" : "text-[#F6F4EA]"
-          )}
-        >
-          <Menu size={24} />
-        </button>
-      </div>
+        </div>
+      </header>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
@@ -129,11 +142,11 @@ export function Header({ onOpenProposal }: { onOpenProposal: () => void }) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[60] bg-[#1F2133] flex flex-col p-8"
+            className="fixed inset-0 z-[100] bg-[#1F2133] flex flex-col p-8"
           >
             <div className="flex justify-between items-center mb-16">
               <img src={logoDrinkeria} alt="Logo" className="h-10 brightness-0 invert" />
-              <button onClick={() => setIsMobileMenuOpen(false)} className="text-[#F6F4EA]">
+              <button onClick={() => setIsMobileMenuOpen(false)} className="text-[#F6F4EA] p-2">
                 <X size={32} />
               </button>
             </div>
@@ -162,6 +175,6 @@ export function Header({ onOpenProposal }: { onOpenProposal: () => void }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

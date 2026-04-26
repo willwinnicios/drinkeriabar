@@ -37,6 +37,13 @@
   .cta-glow {
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
   }
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .will-change-transform {
+    will-change: transform;
+  }
 }
 
 body {

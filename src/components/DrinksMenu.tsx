@@ -305,9 +305,13 @@ function DrinkCard({ drink, index }: { drink: typeof drinks[0]; index: number })
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "50px" }}
       exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.6, delay: (index % 4) * 0.1 }}
+      transition={{ 
+        duration: 0.6, 
+        delay: (index % 4) * 0.1,
+        layout: { duration: 0.6, delay: 0 }
+      }}
       className={cn(
-        "group relative w-full overflow-hidden rounded-sm bg-[#1a1c2c] transition-all duration-700",
+        "group relative w-full overflow-hidden rounded-sm bg-[#1a1c2c]",
         isLarge ? "md:col-span-2 aspect-[16/10]" : "aspect-[4/5]"
       )}
     >
@@ -317,6 +321,7 @@ function DrinkCard({ drink, index }: { drink: typeof drinks[0]; index: number })
         loading="lazy"
         className={cn(
           "absolute inset-0 w-full h-full object-cover transition-transform duration-1000 opacity-60",
+          "transform-gpu backface-hidden will-change-transform",
           "md:group-hover:scale-105 md:group-hover:opacity-30",
           isOpen ? "scale-105 opacity-30" : ""
         )}
@@ -434,18 +439,18 @@ export function DrinksMenu() {
                 Eventos
               </span>
             </div>
-            <h2 className="font-serif italic text-5xl md:text-8xl mb-12 text-[#F6F4EA] px-2 md:px-0">A Carta de Drinks</h2>
+            <h2 className="font-serif italic text-4xl md:text-8xl mb-12 text-[#F6F4EA] px-2 md:px-0 text-balance">A Carta de Drinks</h2>
 
-            <nav className="flex justify-start md:justify-center items-center gap-6 md:gap-12 overflow-x-auto pb-4 md:pb-0 scrollbar-hide px-4 md:px-0">
+            <nav className="flex flex-wrap justify-center items-center gap-x-6 gap-y-4 md:gap-x-12 w-full px-4 md:px-0">
               {Object.keys(categoryGroups).map((group) => (
                 <button
                   key={group}
                   onClick={() => setFilter(group)}
                   className={cn(
-                    "font-sans text-[10px] md:text-[11px] uppercase tracking-[0.3em] transition-all duration-700 relative py-2",
+                    "font-sans text-[10px] md:text-[11px] uppercase tracking-[0.2em] md:tracking-[0.3em] transition-all duration-700 relative py-2 whitespace-nowrap",
                     filter === group
                       ? "text-[#D4AF37]"
-                      : "text-[#F6F4EA]/20 hover:text-[#F6F4EA]/50"
+                      : "text-[#F6F4EA]/40 hover:text-[#F6F4EA]/70"
                   )}
                 >
                   {group}
