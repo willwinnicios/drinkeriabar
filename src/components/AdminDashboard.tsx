@@ -17,7 +17,8 @@ import {
   LogOut,
   ChevronRight,
   TrendingUp,
-  DollarSign
+  DollarSign,
+  MessageSquare
 } from 'lucide-react';
 import { leadService, Lead } from '../lib/leads';
 import { cn } from '../lib/utils';
