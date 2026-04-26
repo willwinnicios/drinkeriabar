@@ -53,17 +53,17 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
     leadService.saveLead(formData);
 
     // Prepare WhatsApp Message - Premium Formatting
-    const message = `\uD83C\uDF78 *NOVA SOLICITAÇÃO DE PROPOSTA* \uD83C\uDF78\n` +
+    const message = `*NOVA SOLICITAÇÃO DE PROPOSTA*\n` +
       `---------------------------------------\n` +
-      `\uD83D\uDC64 *CLIENTE:* ${formData.name.toUpperCase()}\n` +
-      `\uD83D\uDCE7 *E-MAIL:* ${formData.email}\n` +
-      `\uD83D\uDCF1 *WHATSAPP:* ${formData.phone}\n\n` +
-      `\uD83D\uDDD3\uFE0F *DETALHES DO EVENTO*\n` +
+      `*CLIENTE:* ${formData.name.toUpperCase()}\n` +
+      `*E-MAIL:* ${formData.email}\n` +
+      `*WHATSAPP:* ${formData.phone}\n\n` +
+      `*DETALHES DO EVENTO*\n` +
       `---------------------------------------\n` +
-      `\u2728 *TIPO:* ${formData.eventType}\n` +
-      `\uD83D\uDCC5 *DATA:* ${formData.eventDate}\n` +
-      `\uD83D\uDC65 *CONVIDADOS:* ${formData.guests} pessoas\n\n` +
-      `\uD83D\uDCDD *OBSERVAÇÕES:*\n` +
+      `*TIPO:* ${formData.eventType}\n` +
+      `*DATA:* ${formData.eventDate}\n` +
+      `*CONVIDADOS:* ${formData.guests} pessoas\n\n` +
+      `*OBSERVAÇÕES:*\n` +
       `_${formData.observations || 'Nenhuma informada.'}_\n` +
       `---------------------------------------\n` +
       `_Solicitado via site Drinkeria Bar_`;
