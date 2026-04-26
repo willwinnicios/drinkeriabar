@@ -99,7 +99,7 @@ export function Hero({ onOpenProposal }: { onOpenProposal: () => void }) {
             Alta Coquetelaria
           </span>
           <h1 className="font-serif italic text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight mb-8 text-[#F6F4EA] max-w-4xl mx-auto">
-            Seu evento merece <br className="hidden md:block" />
+            Seu evento merece <br />
             um drink com <TypingEffect words={words} />
           </h1>
           <motion.button
