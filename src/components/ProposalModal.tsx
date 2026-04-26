@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, User, Phone, Calendar, Users, PartyPopper, MessageSquare, ChevronRight, CheckCircle2, Mail, MapPin } from 'lucide-react';
+import { X, User, Phone, Calendar, Users, PartyPopper, MessageSquare, ChevronRight, CheckCircle2, Mail, MapPin, Loader2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { leadService } from '../lib/leads';
 
@@ -21,6 +21,40 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
     guests: '',
     observations: ''
   });
+
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchTimeoutRef = useRef<NodeJS.Timeout>();
+
+  const handleLocationSearch = (query: string) => {
+    setFormData({ ...formData, eventLocation: query });
+    setShowSuggestions(true);
+    
+    if (query.length < 3) {
+      setSuggestions([]);
+      return;
+    }
+
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    searchTimeoutRef.current = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&countrycodes=br&limit=5`, {
+          headers: { 'User-Agent': 'DrinkeriaBar/1.0' }
+        });
+        const data = await res.json();
+        setSuggestions(data);
+      } catch (error) {
+        console.error('Erro ao buscar local:', error);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 500);
+  };
 
   const maskPhone = (value: string) => {
     return value
@@ -236,10 +270,41 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
                             type="text"
                             placeholder="Ex: Pato Branco - PR ou Nome do Local"
                             value={formData.eventLocation}
-                            onChange={(e) => setFormData({ ...formData, eventLocation: e.target.value })}
+                            onChange={(e) => handleLocationSearch(e.target.value)}
+                            onFocus={() => setShowSuggestions(true)}
+                            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                             className="w-full bg-white border border-[#1F2133]/10 px-12 py-3 rounded-sm text-[#1F2133] font-sans text-sm outline-none focus:border-[#D4AF37] transition-colors"
                           />
+                          {isSearching && (
+                            <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 text-[#1F2133]/30 animate-spin" size={16} />
+                          )}
                         </div>
+
+                        {/* Autocomplete Dropdown */}
+                        <AnimatePresence>
+                          {showSuggestions && suggestions.length > 0 && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -5 }}
+                              className="absolute z-50 w-full mt-1 bg-white border border-[#1F2133]/10 rounded-sm shadow-xl max-h-48 overflow-y-auto divide-y divide-[#1F2133]/5"
+                            >
+                              {suggestions.map((place) => (
+                                <div
+                                  key={place.place_id}
+                                  onClick={() => {
+                                    setFormData({ ...formData, eventLocation: place.display_name.split(',').slice(0, 3).join(', ') });
+                                    setShowSuggestions(false);
+                                  }}
+                                  className="p-3 hover:bg-[#F6F4EA] cursor-pointer transition-colors"
+                                >
+                                  <p className="text-sm font-bold text-[#1F2133]">{place.name}</p>
+                                  <p className="text-[10px] text-[#1F2133]/60 truncate">{place.display_name}</p>
+                                </div>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
 
                       <div className="relative mt-2 md:mt-4">
