@@ -380,10 +380,20 @@ function DrinkCard({ drink, index }: { drink: typeof drinks[0]; index: number })
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden absolute bottom-6 right-6 w-8 h-8 rounded-full border border-[#D4AF37]/30 flex items-center justify-center bg-[#1F2133]/50 backdrop-blur-sm text-[#D4AF37] transition-all z-10"
+        className="md:hidden absolute bottom-5 right-5 px-4 py-2 rounded-full border border-[#D4AF37]/40 flex items-center gap-2 bg-[#1F2133]/60 backdrop-blur-md text-[#D4AF37] transition-all z-10 font-sans text-[9px] uppercase tracking-[0.2em] font-bold shadow-lg"
         aria-label="Ver mais informações"
       >
-        {isOpen ? <Minus size={14} /> : <Plus size={14} />}
+        {isOpen ? (
+          <>
+            <span>Fechar</span>
+            <Minus size={12} />
+          </>
+        ) : (
+          <>
+            <span>Ver Detalhes</span>
+            <Plus size={12} />
+          </>
+        )}
       </button>
     </motion.div>
   );
