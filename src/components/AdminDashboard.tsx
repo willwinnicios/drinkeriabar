@@ -18,7 +18,10 @@ import {
   ChevronRight,
   TrendingUp,
   DollarSign,
-  MessageSquare
+  MessageSquare,
+  X,
+  MapPin,
+  Eye
 } from 'lucide-react';
 import { leadService, Lead } from '../lib/leads';
 import { cn } from '../lib/utils';
@@ -33,6 +36,7 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
   const [filter, setFilter] = useState<Lead['status'] | 'all'>('all');
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState<'overview' | 'leads' | 'settings'>('overview');
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
   useEffect(() => {
     setLeads(leadService.getLeads());
@@ -262,7 +266,11 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                     </thead>
                     <tbody className="divide-y divide-[#1F2133]/5">
                       {filteredLeads.length > 0 ? filteredLeads.map((lead) => (
-                        <tr key={lead.id} className="hover:bg-[#F6F4EA]/50 transition-colors group">
+                        <tr 
+                          key={lead.id} 
+                          onClick={() => setSelectedLead(lead)}
+                          className="hover:bg-[#F6F4EA]/80 transition-colors group cursor-pointer"
+                        >
                           <td className="p-4 text-xs text-[#1F2133]/60">
                             {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString('pt-BR') : 'Sem data'} <br/>
                             {lead.createdAt ? new Date(lead.createdAt).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}) : ''}
@@ -280,7 +288,7 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                             </span>
                             <p className="text-[11px] mt-1 text-[#1F2133]/60"><Calendar size={10} className="inline mr-1"/> {lead.eventDate || 'A combinar'} • <Users size={10} className="inline mr-1"/> {lead.guests} pessoas</p>
                           </td>
-                          <td className="p-4">
+                          <td className="p-4" onClick={(e) => e.stopPropagation()}>
                             <select 
                               value={lead.status}
                               onChange={(e) => handleStatusChange(lead.id, e.target.value as any)}
@@ -295,8 +303,11 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                               <option value="completed">Fechado</option>
                             </select>
                           </td>
-                          <td className="p-4 text-right">
-                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <td className="p-4 text-right" onClick={(e) => e.stopPropagation()}>
+                            <div className="flex justify-end gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                              <button onClick={() => setSelectedLead(lead)} className="p-2 text-[#1F2133]/50 hover:bg-[#1F2133]/5 rounded-lg transition-all md:hidden" title="Ver detalhes">
+                                <Eye size={16} />
+                              </button>
                               <button onClick={() => handleDelete(lead.id)} className="p-2 text-red-400 hover:bg-red-50 rounded-lg transition-all" title="Excluir">
                                 <Trash2 size={16} />
                               </button>
@@ -366,6 +377,135 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
           </AnimatePresence>
         </div>
       </main>
+
+      {/* Lead Details Modal */}
+      <AnimatePresence>
+        {selectedLead && (
+          <div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-4 sm:p-6 overflow-y-auto">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedLead(null)}
+              className="absolute inset-0 bg-[#1F2133]/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 100 }}
+              className="relative w-full max-w-2xl bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            >
+              <div className="flex items-center justify-between p-6 border-b border-[#1F2133]/10 bg-[#F6F4EA]/30">
+                <div>
+                  <h3 className="font-serif italic text-2xl text-[#1F2133]">Detalhes do Pedido</h3>
+                  <p className="text-xs text-[#1F2133]/60 mt-1">ID: {selectedLead.id.toUpperCase()}</p>
+                </div>
+                <button 
+                  onClick={() => setSelectedLead(null)}
+                  className="p-2 bg-white hover:bg-[#1F2133]/5 text-[#1F2133]/60 hover:text-[#1F2133] rounded-full transition-colors border border-[#1F2133]/10"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="p-6 overflow-y-auto flex-1 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Client Info */}
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#1F2133]/40 mb-3 border-b border-[#1F2133]/10 pb-2">Cliente</h4>
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-[#1F2133]/5 flex items-center justify-center text-[#1F2133] font-bold">
+                            {(selectedLead.name || '?').charAt(0).toUpperCase()}
+                          </div>
+                          <div>
+                            <p className="font-bold text-sm text-[#1F2133]">{selectedLead.name}</p>
+                            <p className="text-xs text-[#1F2133]/60">Cadastrado em {selectedLead.createdAt ? new Date(selectedLead.createdAt).toLocaleDateString('pt-BR') : 'Sem data'}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm text-[#1F2133]/80">
+                          <Phone size={14} className="text-[#D4AF37]" />
+                          {selectedLead.phone}
+                        </div>
+                        <div className="flex items-center gap-3 text-sm text-[#1F2133]/80">
+                          <Mail size={14} className="text-[#D4AF37]" />
+                          {selectedLead.email}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Event Info */}
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#1F2133]/40 mb-3 border-b border-[#1F2133]/10 pb-2">Evento</h4>
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-[#1F2133]/60">Tipo</span>
+                          <span className="text-sm font-bold bg-[#1F2133]/5 px-2 py-0.5 rounded uppercase tracking-wider text-[10px]">{selectedLead.eventType}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-[#1F2133]/60">Data</span>
+                          <span className="text-sm font-bold flex items-center gap-2"><Calendar size={14} className="text-[#D4AF37]"/> {selectedLead.eventDate}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm text-[#1F2133]/60">Convidados</span>
+                          <span className="text-sm font-bold flex items-center gap-2"><Users size={14} className="text-[#D4AF37]"/> {selectedLead.guests}</span>
+                        </div>
+                        {selectedLead.eventLocation && (
+                          <div className="flex flex-col gap-1 mt-2">
+                            <span className="text-sm text-[#1F2133]/60">Local/Cidade</span>
+                            <span className="text-sm font-bold flex items-start gap-2"><MapPin size={14} className="text-[#D4AF37] mt-0.5 shrink-0"/> {selectedLead.eventLocation}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Observations */}
+                <div>
+                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#1F2133]/40 mb-3 border-b border-[#1F2133]/10 pb-2">Observações Adicionais</h4>
+                  <div className="bg-[#1F2133]/5 p-4 rounded-lg">
+                    <p className="text-sm text-[#1F2133]/80 italic">
+                      {selectedLead.observations ? `"${selectedLead.observations}"` : "Nenhuma observação informada pelo cliente."}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 border-t border-[#1F2133]/10 bg-[#F6F4EA]/30 flex flex-col sm:flex-row gap-3 justify-end items-center">
+                <select 
+                  value={selectedLead.status}
+                  onChange={(e) => {
+                    handleStatusChange(selectedLead.id, e.target.value as any);
+                    setSelectedLead({ ...selectedLead, status: e.target.value as any });
+                  }}
+                  className={cn(
+                    "text-xs uppercase font-bold border-none outline-none cursor-pointer px-4 py-2.5 rounded-lg w-full sm:w-auto",
+                    selectedLead.status === 'pending' ? "bg-orange-100 text-orange-600" : 
+                    selectedLead.status === 'contacted' ? "bg-blue-100 text-blue-600" : "bg-green-100 text-green-600"
+                  )}
+                >
+                  <option value="pending">Marcar como Pendente</option>
+                  <option value="contacted">Marcar como Contatado</option>
+                  <option value="completed">Marcar como Fechado</option>
+                </select>
+                <a 
+                  href={`https://wa.me/${(selectedLead.phone || '').replace(/\D/g, '')}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-6 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-lg font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-colors"
+                >
+                  <Phone size={16} />
+                  Chamar no WhatsApp
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
