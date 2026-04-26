@@ -96,7 +96,7 @@ export function Hero({ onOpenProposal }: { onOpenProposal: () => void }) {
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
           <span className="font-sans text-[10px] uppercase tracking-[0.5em] mb-4 block opacity-70">
-            Alta Coquetelaria
+            Drinkeria Bar & Eventos
           </span>
           <h1 className="font-serif italic text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight mb-8 text-[#F6F4EA] max-w-4xl mx-auto">
             Seu evento merece <br />
