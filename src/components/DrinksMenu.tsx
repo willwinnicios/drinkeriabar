@@ -357,7 +357,7 @@ function DrinkCard({ drink, index }: { drink: typeof drinks[0]; index: number })
           "md:group-hover:max-h-40 md:group-hover:opacity-100",
           isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
         )}>
-          <div className="space-y-3 font-sans text-[11px] md:text-[13px] text-[#F6F4EA]/70 leading-relaxed max-w-lg pointer-events-auto">
+          <div className="space-y-3 font-sans text-[11px] md:text-[13px] text-[#F6F4EA]/70 leading-relaxed max-w-lg pointer-events-auto pr-28 md:pr-0">
             <p><strong className="text-[#F6F4EA] font-semibold uppercase tracking-tighter mr-2">Base:</strong> {drink.base}</p>
             <p><strong className="text-[#F6F4EA] font-semibold uppercase tracking-tighter mr-2">Perfil:</strong> {drink.profile}</p>
             <p className="italic font-light border-l border-[#D4AF37]/30 pl-4 py-1">"{drink.experience}"</p>
