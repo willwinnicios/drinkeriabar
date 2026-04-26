@@ -15,8 +15,13 @@ const STORAGE_KEY = 'drinkeria_leads';
 
 export const leadService = {
   getLeads: (): Lead[] => {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    try {
+      const data = localStorage.getItem(STORAGE_KEY);
+      const parsed = data ? JSON.parse(data) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
   },
 
   saveLead: (lead: Omit<Lead, 'id' | 'createdAt' | 'status'>) => {

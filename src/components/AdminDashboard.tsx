@@ -52,8 +52,8 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
   const filteredLeads = leads
     .filter(l => filter === 'all' ? true : l.status === filter)
     .filter(l => 
-      l.name.toLowerCase().includes(search.toLowerCase()) || 
-      l.eventType.toLowerCase().includes(search.toLowerCase())
+      (l.name?.toLowerCase() || '').includes(search.toLowerCase()) || 
+      (l.eventType?.toLowerCase() || '').includes(search.toLowerCase())
     );
 
   const stats = {
@@ -184,11 +184,11 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                       <div key={lead.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#F6F4EA]/50 transition-colors">
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 bg-[#1F2133]/5 rounded-full flex items-center justify-center text-[#1F2133] font-serif italic text-xl">
-                            {lead.name.charAt(0)}
+                            {(lead.name || '?').charAt(0)}
                           </div>
                           <div>
-                            <h4 className="font-bold text-[#1F2133]">{lead.name}</h4>
-                            <p className="text-xs text-[#1F2133]/60">{lead.eventType} • {lead.guests} pessoas</p>
+                            <h4 className="font-bold text-[#1F2133]">{lead.name || 'Sem nome'}</h4>
+                            <p className="text-xs text-[#1F2133]/60">{lead.eventType || 'Evento'} • {lead.guests || '0'} pessoas</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-4">
@@ -199,7 +199,7 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                           )}>
                             {lead.status === 'pending' ? 'Pendente' : lead.status === 'contacted' ? 'Contatado' : 'Fechado'}
                           </span>
-                          <a href={`https://wa.me/${lead.phone.replace(/\D/g, '')}`} target="_blank" className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors">
+                          <a href={`https://wa.me/${(lead.phone || '').replace(/\D/g, '')}`} target="_blank" className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors">
                             <Phone size={14} />
                           </a>
                         </div>
@@ -263,13 +263,13 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                       {filteredLeads.length > 0 ? filteredLeads.map((lead) => (
                         <tr key={lead.id} className="hover:bg-[#F6F4EA]/50 transition-colors group">
                           <td className="p-4 text-xs text-[#1F2133]/60">
-                            {new Date(lead.createdAt).toLocaleDateString('pt-BR')} <br/>
-                            {new Date(lead.createdAt).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}
+                            {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString('pt-BR') : 'Sem data'} <br/>
+                            {lead.createdAt ? new Date(lead.createdAt).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}) : ''}
                           </td>
                           <td className="p-4">
-                            <p className="font-bold text-sm text-[#1F2133]">{lead.name}</p>
+                            <p className="font-bold text-sm text-[#1F2133]">{lead.name || 'Sem nome'}</p>
                             <div className="flex gap-3 mt-1">
-                              <a href={`https://wa.me/${lead.phone.replace(/\D/g, '')}`} target="_blank" className="text-[11px] text-green-600 flex items-center gap-1 hover:underline"><Phone size={10} /> {lead.phone}</a>
+                              <a href={`https://wa.me/${(lead.phone || '').replace(/\D/g, '')}`} target="_blank" className="text-[11px] text-green-600 flex items-center gap-1 hover:underline"><Phone size={10} /> {lead.phone}</a>
                               <p className="text-[11px] text-[#1F2133]/60 flex items-center gap-1"><Mail size={10} /> {lead.email}</p>
                             </div>
                           </td>
