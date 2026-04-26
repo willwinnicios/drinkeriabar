@@ -5,6 +5,7 @@ export interface Lead {
   email: string;
   eventType: string;
   eventDate: string;
+  eventLocation?: string;
   guests: string;
   observations: string;
   status: 'pending' | 'contacted' | 'completed';

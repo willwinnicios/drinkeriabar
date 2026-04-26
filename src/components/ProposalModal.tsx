@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, User, Phone, Calendar, Users, PartyPopper, MessageSquare, ChevronRight, CheckCircle2, Mail } from 'lucide-react';
+import { X, User, Phone, Calendar, Users, PartyPopper, MessageSquare, ChevronRight, CheckCircle2, Mail, MapPin } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { leadService } from '../lib/leads';
 
@@ -17,6 +17,7 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
     email: '',
     eventType: '',
     eventDate: '',
+    eventLocation: '',
     guests: '',
     observations: ''
   });
@@ -62,6 +63,7 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
       `---------------------------------------\n` +
       `*TIPO:* ${formData.eventType}\n` +
       `*DATA:* ${formData.eventDate}\n` +
+      `*LOCAL/CIDADE:* ${formData.eventLocation}\n` +
       `*CONVIDADOS:* ${formData.guests} pessoas\n\n` +
       `*OBSERVAÇÕES:*\n` +
       `_${formData.observations || 'Nenhuma informada.'}_\n` +
@@ -78,7 +80,7 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
       // Reset after close
       setTimeout(() => {
         setStep(1);
-        setFormData({ name: '', phone: '', email: '', eventType: '', eventDate: '', guests: '', observations: '' });
+        setFormData({ name: '', phone: '', email: '', eventType: '', eventDate: '', eventLocation: '', guests: '', observations: '' });
       }, 500);
     }, 2000);
   };
@@ -221,6 +223,20 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
                             placeholder="DD/MM/AAAA"
                             value={formData.eventDate}
                             onChange={(e) => setFormData({ ...formData, eventDate: maskDate(e.target.value) })}
+                            className="w-full bg-white border border-[#1F2133]/10 px-12 py-3 rounded-sm text-[#1F2133] font-sans text-sm outline-none focus:border-[#D4AF37] transition-colors"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="md:col-span-2 relative mt-2 md:mt-4">
+                        <label className="text-[10px] uppercase tracking-widest text-[#1F2133]/40 font-bold mb-2 block">Local ou Cidade do Evento</label>
+                        <div className="relative">
+                          <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D4AF37]" size={16} />
+                          <input
+                            type="text"
+                            placeholder="Ex: Pato Branco - PR ou Nome do Local"
+                            value={formData.eventLocation}
+                            onChange={(e) => setFormData({ ...formData, eventLocation: e.target.value })}
                             className="w-full bg-white border border-[#1F2133]/10 px-12 py-3 rounded-sm text-[#1F2133] font-sans text-sm outline-none focus:border-[#D4AF37] transition-colors"
                           />
                         </div>
