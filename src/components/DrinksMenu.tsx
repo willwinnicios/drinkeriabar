@@ -303,6 +303,7 @@ function DrinkCard({ drink, index }: { drink: typeof drinks[0]; index: number })
       layout
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "50px" }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.6, delay: (index % 4) * 0.1 }}
       className={cn(
