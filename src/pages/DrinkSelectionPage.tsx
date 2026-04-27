@@ -27,7 +27,7 @@ export function DrinkSelectionPage() {
   const [lead, setLead] = useState<Lead | null>(null);
   const [step, setStep] = useState<'auth' | 'selection' | 'details' | 'success'>('auth');
   const [isLoading, setIsLoading] = useState(true);
-  const [authName, setAuthName] = useState('');
+  const [authPhone, setAuthPhone] = useState('');
   const [authError, setAuthError] = useState(false);
   
   const [selectedDrinks, setSelectedDrinks] = useState<string[]>([]);
@@ -75,10 +75,10 @@ export function DrinkSelectionPage() {
     e.preventDefault();
     if (!lead) return;
 
-    const normalizedAuth = authName.toLowerCase().trim();
-    const normalizedLead = lead.name.toLowerCase().trim();
+    const leadPhone = (lead.phone || '').replace(/\D/g, '');
+    const inputPhone = authPhone.replace(/\D/g, '');
 
-    if (normalizedLead.includes(normalizedAuth) && normalizedAuth.length > 3) {
+    if (leadPhone === inputPhone && inputPhone.length >= 10) {
       setStep('selection');
       setAuthError(false);
     } else {
@@ -154,18 +154,18 @@ export function DrinkSelectionPage() {
             >
               <div className="text-center space-y-3">
                 <h2 className="font-serif italic text-3xl">Seja Bem-vindo!</h2>
-                <p className="text-sm text-[#F6F4EA]/50 font-light leading-relaxed">Olá, {lead.name.split(' ')[0]}! Para continuar com sua seleção, confirme seu nome completo abaixo.</p>
+                <p className="text-sm text-[#F6F4EA]/50 font-light leading-relaxed">Olá, {lead.name.split(' ')[0]}! Para continuar com sua seleção, confirme seu número de WhatsApp abaixo.</p>
               </div>
 
               <form onSubmit={handleAuth} className="space-y-6">
                 <div className="relative group">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D4AF37]/50 group-focus-within:text-[#D4AF37] transition-colors" size={20} />
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D4AF37]/50 group-focus-within:text-[#D4AF37] transition-colors" size={20} />
                   <input
-                    type="text"
+                    type="tel"
                     required
-                    placeholder="Seu Nome Completo"
-                    value={authName}
-                    onChange={(e) => setAuthName(e.target.value)}
+                    placeholder="Seu WhatsApp (DDD + Número)"
+                    value={authPhone}
+                    onChange={(e) => setAuthPhone(e.target.value)}
                     className={cn(
                       "w-full bg-white/5 border border-white/10 pl-12 pr-4 py-5 rounded-sm outline-none focus:border-[#D4AF37] transition-all text-sm font-light",
                       authError && "border-red-500/50 bg-red-500/5"
@@ -173,7 +173,7 @@ export function DrinkSelectionPage() {
                   />
                 </div>
                 {authError && (
-                  <p className="text-red-400 text-[10px] uppercase tracking-widest font-bold text-center">Acesso negado. Verifique o nome digitado.</p>
+                  <p className="text-red-400 text-[10px] uppercase tracking-widest font-bold text-center">Acesso negado. Verifique o número digitado.</p>
                 )}
                 <button
                   type="submit"

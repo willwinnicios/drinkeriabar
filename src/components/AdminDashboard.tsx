@@ -23,7 +23,8 @@ import {
   MapPin,
   Eye,
   Martini,
-  Wine
+  Wine,
+  ChevronDown
 } from 'lucide-react';
 import { leadService, Lead } from '../lib/leads';
 import { cn } from '../lib/utils';
