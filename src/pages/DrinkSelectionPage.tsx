@@ -257,12 +257,18 @@ export function DrinkSelectionPage() {
                       <h4 className="font-serif italic text-2xl text-[#F6F4EA] mb-4">{drink.name}</h4>
                       
                       <div className="space-y-2 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        <p className="text-[10px] text-[#D4AF37] font-bold uppercase tracking-widest">{drink.profile}</p>
                         <p className="text-[10px] text-[#F6F4EA]/60 leading-relaxed line-clamp-2 italic border-l border-[#D4AF37]/30 pl-3">
                           {drink.experience}
                         </p>
-                        <p className="text-[9px] uppercase tracking-tighter text-[#F6F4EA]/40">
-                          <strong className="text-[#F6F4EA]/60">Base:</strong> {drink.base}
-                        </p>
+                        <div className="space-y-1">
+                          <p className="text-[9px] uppercase tracking-tighter text-[#F6F4EA]/40">
+                            <strong className="text-[#F6F4EA]/60">Base:</strong> {drink.base}
+                          </p>
+                          <p className="text-[9px] uppercase tracking-tighter text-[#F6F4EA]/40">
+                            <strong className="text-[#F6F4EA]/60">Marcas:</strong> {drink.brands}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
