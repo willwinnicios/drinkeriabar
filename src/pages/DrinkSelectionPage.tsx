@@ -64,7 +64,10 @@ export function DrinkSelectionPage() {
           observations: foundLead.observations || ''
         });
         if (foundLead.selectedDrinks) {
-          setSelectedDrinks(foundLead.selectedDrinks);
+          const validDrinks = foundLead.selectedDrinks.filter(drinkName => 
+            drinks.some(d => d.name === drinkName)
+          );
+          setSelectedDrinks(validDrinks);
         }
       }
     }
