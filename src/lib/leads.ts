@@ -10,6 +10,7 @@ export interface Lead {
   observations: string;
   status: 'pending' | 'contacted' | 'completed';
   selectedDrinks?: string[];
+  selectionCompletedAt?: string;
   createdAt: string;
 }
 

@@ -109,7 +109,8 @@ export function DrinkSelectionPage() {
     leadService.updateLead(leadId, {
       ...formData,
       selectedDrinks,
-      status: 'contacted'
+      status: 'completed',
+      selectionCompletedAt: new Date().toISOString()
     });
 
     setStep('success');
@@ -400,12 +401,22 @@ export function DrinkSelectionPage() {
               </div>
               <h2 className="font-serif italic text-4xl">Seleção Concluída!</h2>
               <p className="text-sm text-[#F6F4EA]/60 font-light leading-relaxed max-w-sm mx-auto">
-                Excelente escolha! Seus drinks preferidos foram salvos. A Kenia entrará em contato em breve para finalizar os detalhes do seu orçamento.
+                Excelente escolha! Seus drinks preferidos foram salvos e o horário registrado. Por favor, avise a Kenia no WhatsApp para finalizar seu orçamento.
               </p>
-              <div className="pt-4">
+              <div className="pt-4 flex flex-col gap-4 items-center">
+                <button
+                  onClick={() => {
+                    const text = `Oi Kenia! Acabei de finalizar a seleção de drinks para o meu evento.\n\n*Nome:* ${lead?.name}\n*Data:* ${formData.eventDate}\n*Local:* ${formData.eventLocation}\n*Convidados:* ${formData.guests}\n\n*Drinks Escolhidos:*\n${selectedDrinks.map(d => `- ${d}`).join('\n')}`;
+                    window.open(`https://wa.me/5546999158888?text=${encodeURIComponent(text)}`, '_blank');
+                  }}
+                  className="bg-[#25D366] text-white px-8 py-4 rounded-sm font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:brightness-110 shadow-xl transition-all w-full max-w-xs"
+                >
+                  <MessageSquare size={18} />
+                  Avisar no WhatsApp
+                </button>
                 <button
                   onClick={() => navigate('/')}
-                  className="inline-block border border-white/10 text-white/40 px-10 py-4 rounded-full font-bold text-[9px] uppercase tracking-[0.3em] hover:bg-white/5 transition-all"
+                  className="inline-block text-[#D4AF37] text-[10px] uppercase tracking-widest hover:underline mt-2 font-bold"
                 >
                   Retornar ao Site
                 </button>
