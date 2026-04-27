@@ -11,6 +11,7 @@ import { Footer } from './components/Footer';
 import { WhatsAppWidget } from './components/WhatsAppWidget';
 import { ProposalModal } from './components/ProposalModal';
 import { AdminDashboard } from './components/AdminDashboard';
+import { DrinkSelectionPage } from './pages/DrinkSelectionPage';
 
 function SiteLayout() {
   const [isProposalOpen, setIsProposalOpen] = useState(false);
@@ -44,6 +45,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<SiteLayout />} />
       <Route path="/admin" element={<AdminDashboard onBack={() => navigate('/')} />} />
+      <Route path="/drinks-selection/:leadId" element={<DrinkSelectionPage />} />
     </Routes>
   );
 }

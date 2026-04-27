@@ -108,15 +108,33 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
     
     setStep(3); // Success step
     
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
     setTimeout(() => {
-      window.open(whatsappLink, '_blank');
-      onClose();
-      // Reset after close
-      setTimeout(() => {
-        setStep(1);
-        setFormData({ name: '', phone: '', email: '', eventType: '', eventDate: '', eventLocation: '', guests: '', observations: '' });
-      }, 500);
-    }, 2000);
+      if (isMobile) {
+        window.location.href = whatsappLink;
+      } else {
+        window.open(whatsappLink, '_blank');
+      }
+    }, 1500);
+  };
+
+  const handleClose = () => {
+    onClose();
+    // Reset form after a delay to avoid flickering while modal closes
+    setTimeout(() => {
+      setStep(1);
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        eventType: '',
+        eventDate: '',
+        eventLocation: '',
+        guests: '',
+        observations: ''
+      });
+    }, 500);
   };
 
   return (
@@ -127,7 +145,7 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
+            onClick={handleClose}
             className="absolute inset-0 bg-[#1F2133]/80 backdrop-blur-md"
           />
           
@@ -140,7 +158,7 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
             {/* Header */}
             <div className="bg-[#1F2133] p-6 text-center relative">
               <button 
-                onClick={onClose}
+                onClick={handleClose}
                 className="absolute top-4 right-4 text-[#F6F4EA]/50 hover:text-[#F6F4EA] transition-colors"
               >
                 <X size={24} />
@@ -368,13 +386,37 @@ export function ProposalModal({ isOpen, onClose }: ProposalModalProps) {
                     <p className="text-[#1F2133]/60 font-sans text-sm max-w-xs mx-auto">
                       Sua solicitação foi salva e agora estamos te levando para o WhatsApp da Kenia para finalizar os detalhes.
                     </p>
-                    <div className="pt-4">
+                    
+                    <div className="flex flex-col gap-4 pt-4">
+                      <a 
+                        href={`https://wa.me/5546999158888?text=${encodeURIComponent(
+                          `*NOVA SOLICITAÇÃO DE PROPOSTA*\n` +
+                          `---------------------------------------\n` +
+                          `*CLIENTE:* ${formData.name.toUpperCase()}\n` +
+                          `*E-MAIL:* ${formData.email}\n` +
+                          `*WHATSAPP:* ${formData.phone}\n\n` +
+                          `*DETALHES DO EVENTO*\n` +
+                          `---------------------------------------\n` +
+                          `*TIPO:* ${formData.eventType}\n` +
+                          `*DATA:* ${formData.eventDate}\n` +
+                          `*LOCAL/CIDADE:* ${formData.eventLocation}\n` +
+                          `*CONVIDADOS:* ${formData.guests} pessoas\n\n` +
+                          `*OBSERVAÇÕES:*\n` +
+                          `_${formData.observations || 'Nenhuma informada.'}_\n` +
+                          `---------------------------------------\n` +
+                          `_Solicitado via site Drinkeria Bar_`
+                        )}`}
+                        className="w-full bg-[#25D366] text-white py-4 rounded-sm font-sans text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-[#128C7E] transition-all shadow-lg"
+                      >
+                        Abrir WhatsApp Manualmente
+                      </a>
+                      
                       <motion.div 
                         animate={{ opacity: [0.3, 1, 0.3] }}
                         transition={{ repeat: Infinity, duration: 1.5 }}
                         className="text-[10px] uppercase tracking-widest font-bold text-[#D4AF37]"
                       >
-                        Redirecionando...
+                        Tentando redirecionar automaticamente...
                       </motion.div>
                     </div>
                   </motion.div>

@@ -464,6 +464,48 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                   </div>
                 </div>
 
+                {/* Drinks Selection Link Section */}
+                <div className="bg-[#D4AF37]/5 border border-[#D4AF37]/20 rounded-xl p-6 space-y-4">
+                  <div className="flex items-center gap-2 text-[#D4AF37]">
+                    <Wine size={18} />
+                    <h4 className="text-xs font-bold uppercase tracking-widest">Link de Escolha de Drinks</h4>
+                  </div>
+                  <p className="text-xs text-[#1F2133]/60 leading-relaxed">
+                    Envie este link único para o cliente escolher os drinks que deseja no evento e confirmar os dados detalhados.
+                  </p>
+                  <div className="flex gap-2">
+                    <input 
+                      readOnly 
+                      value={`${window.location.origin}/drinks-selection/${selectedLead.id}`}
+                      className="flex-1 bg-white border border-[#1F2133]/10 px-3 py-2 rounded text-xs text-[#1F2133]/60 outline-none"
+                    />
+                    <button 
+                      onClick={() => {
+                        const link = `${window.location.origin}/drinks-selection/${selectedLead.id}`;
+                        navigator.clipboard.writeText(link);
+                        alert('Link copiado com sucesso!');
+                      }}
+                      className="bg-[#1F2133] text-[#F6F4EA] px-4 py-2 rounded text-[10px] font-bold uppercase tracking-widest hover:bg-[#D4AF37] hover:text-[#1F2133] transition-all whitespace-nowrap"
+                    >
+                      Copiar Link
+                    </button>
+                  </div>
+                </div>
+
+                {/* Selected Drinks if any */}
+                {selectedLead.selectedDrinks && selectedLead.selectedDrinks.length > 0 && (
+                  <div>
+                    <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#1F2133]/40 mb-3 border-b border-[#1F2133]/10 pb-2">Drinks Selecionados</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedLead.selectedDrinks.map(drinkId => (
+                        <span key={drinkId} className="bg-[#1F2133] text-[#D4AF37] px-3 py-1 rounded-full text-[10px] font-bold uppercase">
+                          {drinkId.replace(/-/g, ' ')}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Observations */}
                 <div>
                   <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#1F2133]/40 mb-3 border-b border-[#1F2133]/10 pb-2">Observações Adicionais</h4>
@@ -493,13 +535,13 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                   <option value="completed">Marcar como Fechado</option>
                 </select>
                 <a 
-                  href={`https://wa.me/${(selectedLead.phone || '').replace(/\D/g, '')}`} 
+                  href={`https://wa.me/${(selectedLead.phone || '').replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.name}, aqui está o link exclusivo para você escolher os drinks do seu evento: ${window.location.origin}/drinks-selection/${selectedLead.id}`)}`} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto px-6 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-lg font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-colors"
                 >
                   <Phone size={16} />
-                  Chamar no WhatsApp
+                  Enviar Link via WhatsApp
                 </a>
               </div>
             </motion.div>

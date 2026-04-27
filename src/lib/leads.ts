@@ -9,6 +9,7 @@ export interface Lead {
   guests: string;
   observations: string;
   status: 'pending' | 'contacted' | 'completed';
+  selectedDrinks?: string[];
   createdAt: string;
 }
 
@@ -25,7 +26,12 @@ export const leadService = {
     }
   },
 
-  saveLead: (lead: Omit<Lead, 'id' | 'createdAt' | 'status'>) => {
+  getLeadById: (id: string): Lead | undefined => {
+    const leads = leadService.getLeads();
+    return leads.find(l => l.id === id);
+  },
+
+  saveLead: (lead: Omit<Lead, 'id' | 'createdAt' | 'status' | 'selectedDrinks'>) => {
     const leads = leadService.getLeads();
     const newLead: Lead = {
       ...lead,
@@ -36,6 +42,12 @@ export const leadService = {
     leads.unshift(newLead);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
     return newLead;
+  },
+
+  updateLead: (id: string, updates: Partial<Lead>) => {
+    const leads = leadService.getLeads();
+    const updated = leads.map(l => l.id === id ? { ...l, ...updates } : l);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   },
 
   updateStatus: (id: string, status: Lead['status']) => {
