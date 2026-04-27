@@ -21,7 +21,9 @@ import {
   MessageSquare,
   X,
   MapPin,
-  Eye
+  Eye,
+  Martini,
+  Wine
 } from 'lucide-react';
 import { leadService, Lead } from '../lib/leads';
 import { cn } from '../lib/utils';
@@ -467,7 +469,7 @@ export function AdminDashboard({ onBack }: AdminDashboardProps) {
                 {/* Drinks Selection Link Section */}
                 <div className="bg-[#D4AF37]/5 border border-[#D4AF37]/20 rounded-xl p-6 space-y-4">
                   <div className="flex items-center gap-2 text-[#D4AF37]">
-                    <Wine size={18} />
+                    <Martini size={18} />
                     <h4 className="text-xs font-bold uppercase tracking-widest">Link de Escolha de Drinks</h4>
                   </div>
                   <p className="text-xs text-[#1F2133]/60 leading-relaxed">

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   CheckCircle2, 
   ChevronRight, 
-  Wine, 
+  Martini, 
   User, 
   Phone, 
   MapPin, 
@@ -208,7 +208,7 @@ export function DrinkSelectionPage() {
                     )}
                   >
                     <div className="flex justify-between items-start mb-2">
-                      <Wine className={cn("w-6 h-6", selectedDrinks.includes(drink.id) ? "text-[#D4AF37]" : "text-[#1F2133]/20")} />
+                      <Martini className={cn("w-6 h-6", selectedDrinks.includes(drink.id) ? "text-[#D4AF37]" : "text-[#1F2133]/20")} />
                       {selectedDrinks.includes(drink.id) && <CheckCircle2 className="text-[#D4AF37]" size={20} />}
                     </div>
                     <h4 className="font-bold text-lg mb-1">{drink.name}</h4>
